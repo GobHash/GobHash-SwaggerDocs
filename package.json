@@ -1,7 +1,7 @@
 {
   "name": "gobhash-swagger",
-  "version": "1.0.0",
-  "description": "Swagger for GobHash Social Network",
+  "version": "1.0.7",
+  "description": "Custom Swagger UI for ExpressJS",
   "main": "./lib/index.js",
   "files": [
     "static",
@@ -30,17 +30,13 @@
     "phantom": "2.1.21"
   },
   "author": {
-    "name": "Pablo Díaz",
-    "email": "pablodiaz@newtonlabs.com.gt"
+    "name": "Stephen Scott",
+    "email": "scottie1984@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:fcpauldiaz/GobHash-SwaggerDocs.git"
+    "url": "git@github.com:scottie1984/swagger-ui-express.git"
   },
   "license": "BSD-2-Clause",
   "readmeFilename": "README.md",
-  "bugs": {
-    "url": "https://github.com/scottie1984/swagger-ui-express/issues"
-  },
-  "homepage": "https://github.com/scottie1984/swagger-ui-express"
 }
