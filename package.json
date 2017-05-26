@@ -1,6 +1,6 @@
 {
   "name": "gobhash-swagger",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "Custom Swagger UI for ExpressJS",
   "main": "./lib/index.js",
   "files": [
@@ -38,5 +38,9 @@
     "url": "git@github.com:scottie1984/swagger-ui-express.git"
   },
   "license": "BSD-2-Clause",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/scottie1984/swagger-ui-express/issues"
+  },
+  "homepage": "https://github.com/scottie1984/swagger-ui-express"
 }
