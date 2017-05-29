@@ -1,6 +1,6 @@
 {
   "name": "gobhash-swagger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Custom Swagger UI for ExpressJS",
   "main": "./lib/index.js",
   "files": [

@@ -24,7 +24,14 @@ var setup = function(swaggerDoc, explorer, options, customCss, customfavIcon) {
     var htmlWithCustomCss  = indexHTML.replace('<% customCss %>', customCss);
     var htmlWithFavIcon  = htmlWithCustomCss.replace('<% favIconString %>', favIconString);
 
-    return function(req, res) { res.send(htmlWithFavIcon) };
+    return function(req, res, next) { 
+      if (req.url === '/' ) {
+        res.send(htmlWithFavIcon) 
+      }
+      else {
+        next();
+      }
+    };
 };
 
 var serve = express.static(__dirname + '/static');
