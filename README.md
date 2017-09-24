@@ -2,6 +2,8 @@
 
 Adds middleware to your express app to serve the Swagger UI bound to your Swagger document. This acts as living documentation for your API hosted from within your app.
 
+Updated to Swagger 3.1.4
+
 ## Usage
 
 In app's `package.json`
@@ -84,6 +86,38 @@ var customCss = '#header { display: none }';
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, showExplorer, options, customCss));
 ```
+
+### Load swagger from url
+
+To load your swagger from a url instead of injecting the document, pass `null` as the first parameter, and pass the relative or absolute URL as the sixth parameter.
+
+```javascript
+const express = require('express');
+const app = express();
+const swaggerUi = require('swagger-ui-express');
+
+const swaggerDocument = require('./swagger.json');
+
+app.static
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(null, null, null, null, null, 'http://petstore.swagger.io/v2/swagger.json'));
+```
+
+### Load swagger from yaml file
+
+To load your swagger specification yaml file you need to use a module able to convert yaml to json ; for instance `yamljs`.
+
+    npm install --save yamljs
+
+```javascript
+const express = require('express');
+const app = express();
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+```
+
 
 ## Requirements
 

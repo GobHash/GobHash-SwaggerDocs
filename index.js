@@ -7,31 +7,39 @@ var favIconHtml = '<link rel="icon" type="image/png" href="./favicon-32x32.png" 
                   '<link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />'
 
 
-var setup = function(swaggerDoc, explorer, options, customCss, customfavIcon) {
+var setup = function(swaggerDoc, explorer, options, customCss, customfavIcon, swaggerUrl, customeSiteTitle) {
 	options = options || {};
   var explorerString = explorer ?  '' : '.swagger-ui .topbar .download-url-wrapper { display: none }';
     customCss = explorerString + ' ' + customCss || explorerString;
     customfavIcon = customfavIcon || false;
+    customeSiteTitle = customeSiteTitle || 'Swagger UI';
 	var html = fs.readFileSync(__dirname + '/indexTemplate.html');
-    try {
-    	fs.unlinkSync(__dirname + '/index.html');
-    } catch (e) {
+  try {
+  	fs.unlinkSync(__dirname + '/index.html');
+  } catch (e) {
 
+  }
+
+  var favIconString = customfavIcon ? '<link rel="icon" href="' + customfavIcon + '" />' : favIconHtml;
+  var htmlWithCustomCss  = html.toString().replace('<% customCss %>', customCss);
+  var htmlWithFavIcon  = htmlWithCustomCss.replace('<% favIconString %>', favIconString);
+
+  var initOptions = {
+    swaggerDoc: swaggerDoc || undefined,
+    customOptions: options,
+    swaggerUrl: swaggerUrl || undefined
+  }
+  var htmlWithOptions = htmlWithFavIcon.replace('<% swaggerOptions %>', JSON.stringify(initOptions)).replace('<% title %>', customeSiteTitle)
+  
+  return function(req, res, next) {
+    if (req.url === '/' ) {
+      res.send(htmlWithOptions);
     }
-    var htmlWithSwaggerReplaced = html.toString().replace('<% swaggerDoc %>', JSON.stringify(swaggerDoc));
-    var favIconString = customfavIcon ? '<link rel="icon" href="' + customfavIcon + '" />' : favIconHtml;
-    var indexHTML = htmlWithSwaggerReplaced.replace('<% customOptions %>', stringify(options))
-    var htmlWithCustomCss  = indexHTML.replace('<% customCss %>', customCss);
-    var htmlWithFavIcon  = htmlWithCustomCss.replace('<% favIconString %>', favIconString);
+    else {
+      next();
+    }
+  };
 
-    return function(req, res, next) { 
-      if (req.url === '/' ) {
-        res.send(htmlWithFavIcon) 
-      }
-      else {
-        next();
-      }
-    };
 };
 
 var serve = express.static(__dirname + '/static');
@@ -49,7 +57,7 @@ var stringify = function(obj, prop) {
   json = json.replace(new RegExp('"' + placeholder + '"', 'g'), function(_) {
     return fns.shift();
   });
-  return 'this["' + prop + '"] = ' + json + ';';
+  return json + ';';
 };
 
 module.exports = {

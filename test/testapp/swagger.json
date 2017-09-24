@@ -1,13 +1,13 @@
 {
    "swagger": "2.0",
    "info": {
-     "title": "TEST",
+     "title": "GobHash",
      "description": "",
      "version": "1.0"
    },
    "produces": ["application/json"],
    "paths": {
-     "/": {
+     "/test": {
        "get": {
          "x-swagger-router-controller": "home",
          "operationId": "index",

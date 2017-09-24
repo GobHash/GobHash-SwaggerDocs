@@ -6,6 +6,8 @@ var swaggerDocument = require('./swagger.json');
 app.use((req, res, next) => {
 	if (req.url === '/favicon.ico') {
 		res.sendFile(__dirname + '/favicon.ico');
+	} else if (req.url === '/swagger.json') {
+		res.sendFile(__dirname + '/swagger.json');
 	} else {
 		next();
 	}
@@ -20,16 +22,19 @@ var options = {
 	 appName: "your-app-name1",
 	 scopeSeparator: ",",
 	 additionalQueryStringParams: {}
- }
+ },
+ docExpansion: 'full'
 };
 
+app.get('/test', function(req, res) { res.json({ status: 'OK'}); });
 app.get('/bar', function(req, res) { res.json({ status: 'OKISH'}); });
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, false, options, '.swagger-ui .topbar { background-color: rgb(112, 111, 111); }'));
-app.get('*', function(req, res) {
-  res.send('Sorry, page not found.');
-  //res.render('404');
-});
-//app.get('/', function(req, res) { res.json({ status: 'OK'}); });
 
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument, false, {}, '.swagger-ui .topbar { background-color: rgb(112, 111, 111); }'));
+app.use('/api-docs-from-url', swaggerUi.serve)
+app.get('/api-docs-from-url', swaggerUi.setup(null, false, options, '.swagger-ui .topbar { background-color: red }', null, '/swagger.json'));
+
+app.use(function(req, res) {
+    res.send(404, 'Page not found');
+});
 
 module.exports = app;
