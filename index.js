@@ -33,7 +33,11 @@ var setup = function(swaggerDoc, explorer, options, customCss, customfavIcon, sw
   
   return function(req, res, next) {
     if (req.url === '/' ) {
-      res.send(htmlWithOptions);
+      if (req.user) {
+        res.send(htmlWithOptions);
+      } else {
+        res.redirect('/login');
+      }
     }
     else {
       next();
